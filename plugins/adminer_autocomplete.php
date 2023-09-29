@@ -14,6 +14,7 @@ class AdminerAutocomplete
         if (!isset($_GET['sql'])) return;
         $old_sql = $_GET['sql'];
         $suggests = [];
+        $suggest_fields = [];
         $keywords = [
             "DELETE FROM", "DISTINCT", "EXPLAIN", "FROM", "GROUP BY", "HAVING", "INSERT INTO", "INNER JOIN", "IGNORE",
             "LIMIT", "LEFT JOIN", "NULL", "ORDER BY", "ON DUPLICATE KEY UPDATE", "SELECT", "UPDATE", "WHERE"
@@ -22,7 +23,7 @@ class AdminerAutocomplete
         foreach (array_keys(tables_list()) as $table) {
             $suggests[] = $table;
             foreach (fields($table) as $field => $_) {
-                $suggests[] = "$table.$field";
+                $suggest_fields[] = "$table.$field";
             }
         }
 ?>
@@ -52,6 +53,7 @@ class AdminerAutocomplete
             function autocomplete () {
                 var keywords = <?php echo json_encode($keywords); ?>;
                 var suggests = <?php echo json_encode($suggests); ?>;
+                var suggest_fields = <?php echo json_encode($suggest_fields); ?>;
                 var old_sql = `<?php echo $old_sql; ?>`;
                 var textarea = document.querySelector('textarea.sqlarea');
                 var form = document.querySelector('#form');
@@ -72,13 +74,18 @@ class AdminerAutocomplete
                             callback(null, [
                                 ...keywords.map((word) => ({
                                     value: word + ' ',
-                                    score: 2,
+                                    score: 3,
                                     meta: 'keyword'
                                 })),
                                 ...suggests.map((word) => ({
                                     value: word,
-                                    score: 1,
+                                    score: 2,
                                     meta: 'name'
+                                })),
+                                ...suggest_fields.map((word) => ({
+                                    value: word + ' ',
+                                    score: 1,
+                                    meta: 'field'
                                 }))
                             ]);
                         },
