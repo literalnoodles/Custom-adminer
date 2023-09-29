@@ -27,7 +27,7 @@ class AdminerJsonField {
         if ($this->_testJson($original) !== $original) {
             $jsonText = json_encode(json_decode($original, true), JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
             $return = <<<HTML
-             <textarea cols="50" rows="20">$jsonText</textarea>
+             <textarea readonly cols="50" rows="20">$jsonText</textarea>
             HTML;
         }
         // end modify
