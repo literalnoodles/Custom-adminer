@@ -72,12 +72,12 @@ class AdminerAutocomplete
                             callback(null, [
                                 ...keywords.map((word) => ({
                                     value: word + ' ',
-                                    score: 1,
+                                    score: 2,
                                     meta: 'keyword'
                                 })),
                                 ...suggests.map((word) => ({
-                                    value: word + ' ',
-                                    score: 2,
+                                    value: word,
+                                    score: 1,
                                     meta: 'name'
                                 }))
                             ]);
