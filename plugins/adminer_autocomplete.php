@@ -12,7 +12,6 @@ class AdminerAutocomplete
     {
         // if not sql editor page -> return
         if (!isset($_GET['sql'])) return;
-        $old_sql = $_GET['sql'];
         $suggests = [];
         $suggest_fields = [];
         $keywords = [
@@ -54,7 +53,7 @@ class AdminerAutocomplete
                 var keywords = <?php echo json_encode($keywords); ?>;
                 var suggests = <?php echo json_encode($suggests); ?>;
                 var suggest_fields = <?php echo json_encode($suggest_fields); ?>;
-                var old_sql = `<?php echo $old_sql; ?>`;
+                var old_sql = (qs('#form')['query'].value);
                 var textarea = document.querySelector('textarea.sqlarea');
                 var form = document.querySelector('#form');
                 var sql_area = document.createElement("div");
