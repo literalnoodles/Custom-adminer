@@ -93,6 +93,15 @@ class AdminerAutocomplete
                     // to make popup appear automatically, without explicit ctrl+space
                     enableLiveAutocompletion: true,
                 });
+
+                editor.commands.addCommand({
+                    name: "sql format",
+                    exec: () => {
+                        formatSql(editor)
+                    },
+                    bindKey: {mac: "cmd-f", win: "ctrl-f"}
+                })
+
                 document.querySelector("pre.sqlarea").hidden = true;
                 if (old_sql) {
                     editor.setValue(old_sql, 1);
@@ -106,6 +115,16 @@ class AdminerAutocomplete
             }
 
             function formatSql(editor) {
+                formatted_sql = sqlFormatter.format(editor.getSession().getValue(), {
+                    language: 'mysql',
+                    tabWidth: 2,
+                    keywordCase: 'upper',
+                    linesBetweenQueries: 1,
+                });
+                editor.setValue(formatted_sql);
+            }
+
+            function addFormatSqlBtn(editor) {
                 var format_btn = document.createElement('button');
                 format_btn.id = 'format-btn';
                 format_btn.textContent = 'Format SQL';
@@ -124,7 +143,7 @@ class AdminerAutocomplete
 
             document.addEventListener('DOMContentLoaded', () => {
                 var { editor } = autocomplete();
-                formatSql(editor);
+                addFormatSqlBtn(editor);
                 // overide focus function so it no longer display error
                 old_focus = focus ?? (() => {});
                 focus = (el) => {
