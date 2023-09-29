@@ -13,7 +13,8 @@ function adminer_object() {
     
     $plugins = array(
         // specify enabled plugins here
-        new AdminerIntellisense()
+        new AdminerAutocomplete(),
+        new AdminerJsonField()
     );
     
     /* It is possible to combine customization and plugins:

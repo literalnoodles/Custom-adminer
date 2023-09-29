@@ -1,6 +1,6 @@
 <?php
 
-class AdminerIntellisense
+class AdminerAutocomplete
 {
     public function debug($var)
     {
